@@ -1,6 +1,7 @@
 const mysql = require('../database_config/mysql/mysqlconfig')
 
 let Boards = function (board) {
+    this.board_no = board.board_no
     this.title = board.title
     this.content = board.content
     this.pw = board.pw
@@ -9,8 +10,6 @@ let Boards = function (board) {
     this.dept_name = board.dept_name
     this.rank_ = board.rank_
 }
-
-
 
 //##############################################################################################################
 //create a board
@@ -71,17 +70,16 @@ Boards.updateBoard = function (board_no, board, result) {
         err ? result(null,err) : result(queryResult)
     })
 }
-
+ 
 //##############################################################################################################
 //delete - DELETE delete_a_board
-Boards.deleteBoard = function (board_no, result) {
-    const params = [ board_no ]
-    mysql.query("delete from board2 where board_no = ?",
+Boards.deleteBoard = function (newBoard, result) {
+    const {board_no, pw  } = newBoard
+    const params = [board_no, pw ]
+
+    mysql.query('delete from board2 where board_no = ? and pw = ? ',
      params, function (err, queryResult) {
-        //console.log("DELETE query pass")
         err ? result(null, err) : result(null,queryResult)
     })
 }
-
-
 module.exports = Boards;
