@@ -38,7 +38,9 @@ Boards.readBoard = function (board_no, result) {
 //##############################################################################################################
 // READ - ALL
 Boards.getAllBoard = function (page_number,title,dept_name,result) {    //page_number = 호출 페이지 번호
-    mysql.query("select count(*) as cnt from rdb.board2", function (err, totalCount) {
+    title = '\'%'+title+'%\'';
+    dept_name = '\'%'+dept_name+'%\'';
+    mysql.query(`select count(*) as cnt from rdb.board2 where dept_name like ${dept_name} and title like ${title} `, function (err, totalCount) {
         let { cnt }  = totalCount[0]
         // console.log(` cnt ` ,cnt);
         
@@ -48,11 +50,10 @@ Boards.getAllBoard = function (page_number,title,dept_name,result) {    //page_n
         //자바에 익숙해서 처음에 아래의 방법을 사용했습니다. 근데 js는 소수점도 반환하는 나누기를 무조건 하기에 저렇게 하는것보단 나누어진 값에서 소수점 올림하는게 더 나은것 같아서 수정했습니다.
         // let totalPage = (cnt/pageSize) + (cnt % pageSize == 0 ? 0:1 )
         let totalPage = Math.ceil(cnt/pageSize);
-        let startCount = ( page_number - 1 ) * pageSize +1 
+        let startCount = ( page_number - 1 ) * (pageSize +1) ;
         let endCount =  page_number * pageSize
-        title = '%'+title+'%';
-        dept_name = '%'+dept_name+'%';
-        mysql.query(`select * from ( select * from rdb.board2 where dept_name like '%`+{dept_name}+`%' and title like '%`+{title}+`%'  order by board_no desc limit ${startCount},${pageSize}) as a limit 0,${pageSize}`,
+       
+        mysql.query(`select * from ( select * from rdb.board2 where dept_name like ${dept_name} and title like ${title}  order by board_no desc limit ${startCount},${pageSize}) as a limit 0,${pageSize}`,
         (err,queryResult)=>{
             const total_result = {
                 totalCount : totalPage,
