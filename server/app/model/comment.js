@@ -40,7 +40,7 @@ Comments.updateComment = function (newComment, result) {
     
     mysql.query("update rdb.comment2 set content = ?, name_ = ?, dept_name = ?, rank_ = ? where board_no = ? and pw = ?",
      params, function (err, queryResult) {
-        err ? result(null,err) : result(queryResult)
+        err ? result(null,err) : result(null,queryResult.affectedRows)
     })
 }
 
@@ -51,7 +51,7 @@ Comments.deleteComment = function (newComment, result) {
     const params =[comment_no, pw]
     mysql.query('delete from rdb.comment2 where comment_no = ? and pw = ? ',params,
      function (err,queryResult){
-        err ? result(null,err) : result(null,queryResult)
+        err ? result(null,err) : result(null,queryResult.affectedRows)
     })
 }
 

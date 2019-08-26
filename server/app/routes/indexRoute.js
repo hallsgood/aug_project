@@ -15,7 +15,7 @@ module.exports = (app) =>{
 
     //##############################################################################################################
     //update  delete
-    app.route('/board/:board_no').put(Board.update_a_board)                                                 //update
+    app.route('/board').put(Board.update_a_board)                                                 //update
     app.route('/board').delete(Board.delete_a_board)                                              //delete
 
     //##############################################################################################################
