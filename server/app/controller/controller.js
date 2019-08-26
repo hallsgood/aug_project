@@ -16,21 +16,23 @@ exports.create_a_board = function (req, res) {
 //##############################################################################################################
 //list 
 exports.get_all_board = function (req, res) {
-    //console.log('get_all_board in');
     const { page_number } = req.params
-    Boards.getAllBoard(page_number,function (err, result) {
-       // console.log(`asdfa`);
-        
+    let {title, dept_name}  = req.query;
+    if(title == null || title == ""){
+        title = "";
+    }
+    if(dept_name == null || dept_name == ""){
+        dept_name = "";
+    }
+    Boards.getAllBoard(page_number, title, dept_name, function (err, result) {
         err ? res.send(err) : res.send(result)
     })
 }
 // READ 1
 exports.read_a_board = function (req, res) {
-    //console.log(`1 read a board`,req.body);
     const { board_no } = req.params //url을 얻음
     Boards.readBoard(board_no, function (err, result) {
         err ? res.send(err) : res.send(result)
-        //console.log(`4 a baord read seccess !`, result)
     });
 };
 
@@ -38,10 +40,7 @@ exports.read_a_board = function (req, res) {
 //##############################################################################################################
 // UPDATE
 exports.update_a_board = function (req, res) {
-    //console.log(`1 update a board`,req.body)
-    const { board_no } = req.params 
-    Boards.updateBoard(board_no, new Boards(req.body), function (err, result) {
-        //console.log(`4 update seccess !`)
+    Boards.updateBoard(new Boards(req.body), function (err, result) {
         err ? res.send(err) : res.send(result)
     })
 }
