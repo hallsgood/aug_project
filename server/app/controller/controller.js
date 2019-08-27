@@ -41,7 +41,8 @@ exports.read_a_board = function (req, res) {
 // UPDATE
 exports.update_a_board = function (req, res) {
     Boards.updateBoard(new Boards(req.body), function (err, result) {
-        err ? res.send(err) : res.send(result)
+        // err ? res.send(err) : res.send(result)
+        res.send({result:result})
     })
 }
 //##############################################################################################################
@@ -49,9 +50,7 @@ exports.update_a_board = function (req, res) {
 exports.delete_a_board = function (req, res) {
     const new_board = new Boards(req.body)
     Boards.deleteBoard(new_board, function (err, new_board) {
-        if (err)
-            res.send(err);
-        res.json({ message: 'Board successfully deleted' });
+        res.send({result:result})
     });
 };
 //##############################################################################################################
@@ -77,7 +76,8 @@ exports.insert_comment = function (req, res) {
 exports.update_comment = function (req, res) {
     const new_Comment = new Comments(req.body)
     Comments.updateComment(new_Comment, function (err, result) {
-        err ? res.send(err) : res.send(result)
+        // err ? res.send(err) : res.send(result)
+        res.send({result:result})
     })
 
 }
@@ -87,7 +87,8 @@ exports.update_comment = function (req, res) {
 exports.delete_comment = function (req, res) {
     const new_Comment = new Comments(req.body)
     Comments.deleteComment(new_Comment, function (err, result) {
-        err ? res.send(err) : res.send(result)
+        // err ? res.send(err) : res.send(result)
+        res.send({result:result})
     })
 
 }
